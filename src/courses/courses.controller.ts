@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post, HttpStatus, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, HttpStatus, Res, Patch, Delete } from '@nestjs/common';
 
 @Controller('courses') //posso definir um prefix ou não
 export class CoursesController {
@@ -14,8 +14,24 @@ export class CoursesController {
     }
 
     @Post()
-    @HttpCode(HttpStatus.NO_CONTENT)
+    @HttpCode(HttpStatus.NO_CONTENT) 
     create(@Body() body) {
         return body
+    }
+
+    @Patch(':id')
+    update(@Param('id') id: string, @Body() body): object {
+        return {
+            message: `Atualizando o campo ${id}`,
+            body
+        } 
+    }
+
+    
+    @Delete(':id')
+    delete(@Param('id') id: string): object {
+        return {
+            message: `Deletando o registro ${id}`
+        } 
     }
 }
