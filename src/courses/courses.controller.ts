@@ -1,8 +1,12 @@
 import { Body, Controller, Get, HttpCode, Param, Post, HttpStatus, Res, Patch, Delete } from '@nestjs/common';
+import { CoursesService } from './courses.service';
 
 @Controller('courses') //posso definir um prefix ou não
 export class CoursesController {
+    constructor(private readonly coursesService: CoursesService){
 
+    }
+    
     @Get('list')
     findAll(@Res() response): string {
         return response.status(200).json("Listagem de cursos") // não é a melhor forma de retornar o HTTP CODE
@@ -26,7 +30,6 @@ export class CoursesController {
             body
         } 
     }
-
     
     @Delete(':id')
     delete(@Param('id') id: string): object {
