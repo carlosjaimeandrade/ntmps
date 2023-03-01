@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, HttpStatus, Res } from '@nestjs/common';
 
 @Controller('courses') //posso definir um prefix ou não
 export class CoursesController {
 
     @Get('list')
-    findAll(): string {
-        return "Listagem de recursos"
+    findAll(@Res() response): string {
+        return response.status(200).json("Listagem de cursos") // não é a melhor forma de retornar o HTTP CODE
     }
 
     @Get(':id')
@@ -14,6 +14,7 @@ export class CoursesController {
     }
 
     @Post()
+    @HttpCode(HttpStatus.NO_CONTENT)
     create(@Body() body) {
         return body
     }
