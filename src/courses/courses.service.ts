@@ -17,18 +17,20 @@ export class CoursesService {
     ){}
 
     findAll() {
-        return this.coursesRepository.find()
+        return this.coursesRepository.find({
+            relations: ['tags']
+        })
     }
 
     findOne(id: string) {
-        const course = this.coursesRepository.findOne({where: {id: Number(id)}});
+        const course = this.coursesRepository.findOne({where: {id: Number(id)}, relations: ['tags']});
         if(!course){
             throw new NotFoundException(`Course ${id} not found`)
         }
 
         return course
     }
-
+    
     async create(createCourseDto: CreateCourseDto) {
         const tags = await Promise.all(
             createCourseDto.tags.map((name: string) => this.preLoadTagByName(name))
