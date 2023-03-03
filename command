@@ -8,3 +8,9 @@ nest g controller
 app.useGlobalPipes(new ValidationPipe()) e adicionado no main do projeto, serve para validar os dados que estamos recebendo nas requisição
 npm i class-validator class-transformer
 npm i typeorm @nestjs/typeorm pg
+
+
+migration
+npx typeorm migration:create  ./src/migrations/CourseRefatoring
+npx typeorm migration:revert
+npx typeorm migration:run

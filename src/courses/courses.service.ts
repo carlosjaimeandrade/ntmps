@@ -64,7 +64,7 @@ export class CoursesService {
     }
 
     async remove(id: string) {
-        const course = await this.coursesRepository.findOneBy({id: Number(id)});
+        const course = await this.coursesRepository.findOne({id: Number(id)});
 
         if(!course){
             throw new NotFoundException(`Course ${id} not found`)
