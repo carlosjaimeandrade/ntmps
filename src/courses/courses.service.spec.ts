@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Connection } from 'typeorm';
 import { CoursesService } from './courses.service';
 import { Course } from './entities/course.entity';
 import { Tag } from './entities/tag.entity';
