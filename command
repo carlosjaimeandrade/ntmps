@@ -14,3 +14,11 @@ migration
 npx typeorm migration:create  ./src/migrations/CourseRefatoring
 npx typeorm migration:revert
 npx typeorm migration:run
+
+
+testes
+npm test -- courses.service.spec  
+
+
+Execute
+nest start --watch
