@@ -18,7 +18,7 @@ npx typeorm migration:run
 
 testes
 npm test -- courses.service.spec  
-
+npm run test:e2e
 
 Execute
 nest start --watch
