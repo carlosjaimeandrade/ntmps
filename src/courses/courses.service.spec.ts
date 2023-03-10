@@ -4,7 +4,7 @@ import { CoursesService } from './courses.service';
 import { Course } from './entities/course.entity';
 import { Tag } from './entities/tag.entity';
 import { Repository } from 'typeorm';
-
+import { NotFoundException } from '@nestjs/common';
 // type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>;
 
 // const createMockRepository = <T = any>(): MockRepository<T> => ({
@@ -58,9 +58,23 @@ describe('CoursesService', () => {
       
       expect(await service.findOne(courseid)).toEqual(expectCourses)
     });
-    it('should return NotFoundException', () => {
-      
-     
+    it('should return NotFoundException', async () => {
+      const courseid = '1'
+      // const expectCourses = [
+      //   {id: 1},
+      //   {id: 2}
+      // ]
+
+      //courseRepository.findOne.mockReturnValue(expectCourses);
+      jest.spyOn(courseRepository, 'findOne').mockReturnValueOnce(undefined);
+
+      try{
+        await service.findOne(courseid)
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+        expect(error.message).toEqual(`Course ${courseid} not found`);
+      }
+
     });
   });
   
