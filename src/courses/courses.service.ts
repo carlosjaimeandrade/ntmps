@@ -1,5 +1,4 @@
-import { HttpException, Injectable, HttpStatus, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm/dist';
+import { HttpException, Injectable, HttpStatus, NotFoundException, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Course } from './entities/course.entity';
 import { CreateCourseDto } from './dto/create-course.dto/create-course.dto';
@@ -9,10 +8,10 @@ import { Tag } from './entities/tag.entity';
 @Injectable()
 export class CoursesService {
     constructor(
-        @InjectRepository(Course)
+        @Inject('COURSES_REPOSITORY')
         private readonly coursesRepository: Repository<Course>,
 
-        @InjectRepository(Tag)
+        @Inject('TAGS_REPOSITORY')
         private readonly tagRepository: Repository<Tag>
     ){}
 
@@ -64,7 +63,7 @@ export class CoursesService {
     }
 
     async remove(id: string) {
-        const course = await this.coursesRepository.findOne({id: Number(id)});
+        const course = await this.coursesRepository.findOne({where: {id: Number(id)}});
 
         if(!course){
             throw new NotFoundException(`Course ${id} not found`)

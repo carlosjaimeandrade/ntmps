@@ -9,6 +9,9 @@ app.useGlobalPipes(new ValidationPipe()) e adicionado no main do projeto, serve 
 npm i class-validator class-transformer
 npm i typeorm @nestjs/typeorm pg
 
+build
+npm run build
+
 
 migration
 npx typeorm migration:create  ./src/migrations/CourseRefatoring
