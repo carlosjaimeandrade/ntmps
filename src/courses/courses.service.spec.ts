@@ -11,32 +11,37 @@ import { NotFoundException } from '@nestjs/common';
 //   findOne: jest.fn()
 // })
 
-interface MockCourseRepository extends Repository<Course> {
-  findOne: jest.Mock;
-}
+// interface MockCourseRepository extends Repository<Course> {
+//   findOne: jest.Mock;
+// }
 
 describe('CoursesService', () => {
   let service: CoursesService;
-  let courseRepository: MockCourseRepository;
+  let id;
+  let date;
   
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        CoursesService,
-        {
-          provide: getRepositoryToken(Course),
-          useValue: { findOne: jest.fn() },
-        },
-        {
-          provide: getRepositoryToken(Tag),
-          useValue: { findOne: jest.fn() },
-        },
-      ],
-    }).compile();
+    // const module: TestingModule = await Test.createTestingModule({
+    //   providers: [
+    //     CoursesService,
+    //     {
+    //       provide: getRepositoryToken(Course),
+    //       useValue: { findOne: jest.fn() },
+    //     },
+    //     {
+    //       provide: getRepositoryToken(Tag),
+    //       useValue: { findOne: jest.fn() },
+    //     },
+    //   ],
+    // }).compile();
 
-    service = module.get<CoursesService>(CoursesService);
-    //courseRepository = module.get<MockCourseRepository>(getRepositoryToken(Course));
-    courseRepository = module.get<MockCourseRepository>(getRepositoryToken(Course));
+    // service = module.get<CoursesService>(CoursesService);
+    // //courseRepository = module.get<MockCourseRepository>(getRepositoryToken(Course));
+    // courseRepository = module.get<MockCourseRepository>(getRepositoryToken(Course));
+
+    service = new CoursesService()
+    id = '1',
+    date = new Date
   });
 
   it('should be defined', () => {
@@ -45,6 +50,12 @@ describe('CoursesService', () => {
 
   describe('findOne',  () => {
     it('should search data for id', async () => {
+
+      const mockCourseRepository = {
+        findOne: jest.fn()
+      }
+      //@ts-expect-error define part of methods
+      service['coursesRepository'] = mockCourseRepository
       const courseid = '1'
       // const expectCourses = [
       //   {id: 1},
@@ -53,12 +64,21 @@ describe('CoursesService', () => {
       const expectCourses = {}
 
       //courseRepository.findOne.mockReturnValue(expectCourses);
-      jest.spyOn(courseRepository, 'findOne').mockReturnValue(expectCourses);
+      jest.spyOn(mockCourseRepository, 'findOne').mockReturnValue(expectCourses);
       //const course = await service.findOne(courseid)
       
       expect(await service.findOne(courseid)).toEqual(expectCourses)
     });
+
+
+    
     it('should return NotFoundException', async () => {
+      const mockCourseRepository = {
+        findOne: jest.fn()
+      }
+      //@ts-expect-error define part of methods
+      service['coursesRepository'] = mockCourseRepository
+
       const courseid = '1'
       // const expectCourses = [
       //   {id: 1},
@@ -66,7 +86,7 @@ describe('CoursesService', () => {
       // ]
 
       //courseRepository.findOne.mockReturnValue(expectCourses);
-      jest.spyOn(courseRepository, 'findOne').mockReturnValueOnce(undefined);
+      jest.spyOn(mockCourseRepository, 'findOne').mockReturnValueOnce(undefined);
 
       try{
         await service.findOne(courseid)
